@@ -1,0 +1,370 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #1a1a2e;
+    color: #e0e0e0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+header {
+    background: #16213e;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid #0f3460;
+}
+
+header h1 {
+    font-size: 16px;
+    white-space: nowrap;
+    color: #94b8ff;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+#slide-select {
+    padding: 4px 8px;
+    background: #0f3460;
+    color: #e0e0e0;
+    border: 1px solid #1a5276;
+    border-radius: 4px;
+    min-width: 200px;
+}
+
+#slide-status {
+    font-size: 12px;
+    color: #7fb3d3;
+}
+
+main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+aside {
+    width: 220px;
+    background: #16213e;
+    padding: 12px;
+    overflow-y: auto;
+    border-right: 1px solid #0f3460;
+}
+
+aside h3 {
+    font-size: 12px;
+    color: #7fb3d3;
+    margin: 12px 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+aside h3:first-child {
+    margin-top: 0;
+}
+
+#panel {
+    border-right: none;
+    border-left: 1px solid #0f3460;
+}
+
+#viewer-container {
+    flex: 1;
+    position: relative;
+    background: #0d1117;
+}
+
+#osd-viewer {
+    width: 100%;
+    height: 100%;
+}
+
+#annotation-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#annotation-canvas.drawing {
+    pointer-events: auto;
+    cursor: crosshair;
+}
+
+button, .tool-btn, .deconv-btn {
+    padding: 6px 10px;
+    background: #0f3460;
+    color: #e0e0e0;
+    border: 1px solid #1a5276;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.15s;
+}
+
+button:hover, .tool-btn:hover, .deconv-btn:hover {
+    background: #1a5276;
+}
+
+.tool-btn.active, .deconv-btn.active {
+    background: #2980b9;
+    border-color: #3498db;
+}
+
+.tool-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.tool-btn {
+    flex: 1;
+    min-width: 70px;
+    text-align: center;
+    font-size: 11px;
+}
+
+.tool-btn span {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 2px;
+}
+
+.deconv-btn {
+    flex: 1;
+    font-size: 11px;
+}
+
+input[type="text"], input[type="number"], select {
+    padding: 4px 8px;
+    background: #0f3460;
+    color: #e0e0e0;
+    border: 1px solid #1a5276;
+    border-radius: 4px;
+    font-size: 12px;
+    width: 100%;
+}
+
+.calibration-group {
+    display: flex;
+    gap: 4px;
+}
+
+.layer-row {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.layer-row select {
+    flex: 1;
+}
+
+#add-layer-btn {
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.calibration-group input {
+    flex: 1;
+}
+
+.calibration-group button {
+    white-space: nowrap;
+}
+
+#measurement-display {
+    background: #0d1117;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+#measurement-display .placeholder {
+    color: #555;
+    font-style: italic;
+}
+
+.measure-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.measure-label {
+    color: #7fb3d3;
+}
+
+.measure-value {
+    color: #fff;
+    font-weight: 600;
+}
+
+#annotation-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.ann-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+    margin-bottom: 2px;
+}
+
+.ann-item:hover {
+    background: #0f3460;
+}
+
+.ann-item .color-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ann-item .ann-info {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ann-item .ann-delete {
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#compare-section select {
+    margin-bottom: 4px;
+}
+
+#compare-result, #nc-ratio-result {
+    margin-top: 8px;
+    font-size: 12px;
+    background: #0d1117;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.dialog {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.dialog.hidden {
+    display: none;
+}
+
+.dialog-content {
+    background: #16213e;
+    padding: 24px;
+    border-radius: 8px;
+    min-width: 300px;
+}
+
+.dialog-content label {
+    display: block;
+    margin: 8px 0;
+    font-size: 13px;
+}
+
+.dialog-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+#upload-progress {
+    margin-top: 12px;
+    text-align: center;
+}
+
+#upload-progress progress {
+    width: 100%;
+}
+
+#layer-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+#layer-controls label {
+    font-size: 11px;
+}
+
+.ann-item.selected {
+    background: #1a5276;
+    border: 1px solid #2980b9;
+}
+
+/* Toast notifications */
+#toast-container {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    pointer-events: none;
+}
+
+.toast {
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #fff;
+    background: #2c3e50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    animation: toast-in 0.25s ease-out;
+    pointer-events: auto;
+    max-width: 360px;
+}
+
+.toast-success { background: #1a7a4c; }
+.toast-error { background: #922; }
+.toast-warn { background: #7a5c1a; }
+.toast-info { background: #1a4a7a; }
+
+.toast-fade {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+@keyframes toast-in {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}

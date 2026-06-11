@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字病理切片浏览器</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/openseadragon@4.1.1/build/openseadragon/openseadragon.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>数字病理切片浏览器</h1>
+        <div class="header-controls">
+            <select id="slide-select">
+                <option value="">-- 选择切片 --</option>
+            </select>
+            <button id="upload-btn" title="上传切片">上传切片</button>
+            <input type="file" id="upload-input" accept="image/*" hidden>
+            <span id="slide-status"></span>
+        </div>
+    </header>
+
+    <main>
+        <aside id="toolbar">
+            <h3>标注工具</h3>
+            <div class="tool-group">
+                <button class="tool-btn" data-tool="pan" title="拖动浏览">
+                    <span>✋</span> 浏览
+                </button>
+                <button class="tool-btn" data-tool="freehand" title="自由画笔标注肿瘤区域">
+                    <span>✏️</span> 画笔
+                </button>
+                <button class="tool-btn" data-tool="polygon" title="多边形标注">
+                    <span>⬡</span> 多边形
+                </button>
+                <button class="tool-btn" data-tool="line" title="直线测距">
+                    <span>📏</span> 直线
+                </button>
+                <button class="tool-btn" data-tool="edit" title="编辑标注顶点">
+                    <span>✥</span> 编辑
+                </button>
+            </div>
+
+            <h3>标注者</h3>
+            <input type="text" id="annotator-input" placeholder="输入姓名" value="匿名">
+
+            <h3>图层</h3>
+            <div id="layer-controls">
+                <div class="layer-row">
+                    <select id="layer-select">
+                        <option value="0">图层 0</option>
+                    </select>
+                    <button id="add-layer-btn" title="添加图层">+</button>
+                </div>
+                <label><input type="checkbox" id="show-all-layers" checked> 显示全部</label>
+            </div>
+
+            <h3>颜色分离</h3>
+            <div class="tool-group">
+                <button class="deconv-btn" data-channel="normal">原图</button>
+                <button class="deconv-btn" data-channel="hematoxylin">苏木精</button>
+                <button class="deconv-btn" data-channel="eosin">伊红</button>
+                <button class="deconv-btn" data-channel="residual">残差</button>
+            </div>
+
+            <h3>标定</h3>
+            <div class="calibration-group">
+                <input type="number" id="um-per-pixel" placeholder="µm/像素" step="0.001" min="0">
+                <button id="save-calibration">保存</button>
+            </div>
+        </aside>
+
+        <div id="viewer-container">
+            <div id="osd-viewer"></div>
+            <canvas id="annotation-canvas"></canvas>
+        </div>
+
+        <aside id="panel">
+            <h3>测量结果</h3>
+            <div id="measurement-display">
+                <p class="placeholder">完成标注后显示测量数据</p>
+            </div>
+
+            <h3>标注列表</h3>
+            <div id="annotation-list"></div>
+
+            <h3>IoU 对比</h3>
+            <div id="compare-section">
+                <select id="compare-a"></select>
+                <select id="compare-b"></select>
+                <button id="compare-btn">计算 IoU</button>
+                <div id="compare-result"></div>
+            </div>
+
+            <h3>核浆比分析</h3>
+            <div id="nc-ratio-section">
+                <p>在当前视野中分析核浆比</p>
+                <button id="nc-ratio-btn">计算核浆比</button>
+                <div id="nc-ratio-result"></div>
+            </div>
+        </aside>
+    </main>
+
+    <div id="upload-dialog" class="dialog hidden">
+        <div class="dialog-content">
+            <h3>上传切片</h3>
+            <label>显示名称: <input type="text" id="upload-name"></label>
+            <label>µm/像素: <input type="number" id="upload-um" step="0.001" min="0"></label>
+            <div class="dialog-actions">
+                <button id="upload-confirm">确认上传</button>
+                <button id="upload-cancel">取消</button>
+            </div>
+            <div id="upload-progress" class="hidden">
+                <progress value="0" max="100"></progress>
+                <span>处理中...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/viewer.js"></script>
+    <script src="js/measurements.js"></script>
+    <script src="js/annotations.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
